@@ -23,6 +23,7 @@ var cursors;
 var score = 0;
 var gameOver = false;
 var scoreText;
+var keys;
 
 var game = new Phaser.Game(config);
 
@@ -39,11 +40,25 @@ const worldHeight = 600;
 function create() {
     this.physics.world.setBounds(0, 0, worldWidth, worldHeight);
 
+    keys = this.input.keyboard.addKeys({
+        W: Phaser.Input.Keyboard.KeyCodes.W,
+        Up: Phaser.Input.Keyboard.KeyCodes.UP,
+
+        A: Phaser.Input.Keyboard.KeyCodes.A,
+        Left: Phaser.Input.Keyboard.KeyCodes.LEFT,
+
+        S: Phaser.Input.Keyboard.KeyCodes.S,
+        Down: Phaser.Input.Keyboard.KeyCodes.DOWN,
+
+        D: Phaser.Input.Keyboard.KeyCodes.D,
+        Right: Phaser.Input.Keyboard.KeyCodes.RIGHT
+    });
 
     //  A simple background for our game
     this.add.image(800, 300, 'sky');
 
     this.add.image(400, 300, 'sky');
+
 
     //  The platforms group contains the ground and the 2 ledges we can jump on
     platforms = this.physics.add.staticGroup();
@@ -86,9 +101,6 @@ function create() {
         repeat: -1
     });
 
-    //  Input Events
-    cursors = this.input.keyboard.createCursorKeys();
-
     //  Some stars to collect, 12 in total, evenly spaced 70 pixels apart along the x axis
     stars = this.physics.add.group({
         key: 'star',
@@ -122,12 +134,12 @@ function update() {
         return;
     }
 
-    if (cursors.left.isDown) {
+    if (keys.A.isDown) {
         player.setVelocityX(-160);
 
         player.anims.play('left', true);
     }
-    else if (cursors.right.isDown) {
+    else if (keys.D.isDown) {
         player.setVelocityX(160);
 
         player.anims.play('right', true);
@@ -138,7 +150,7 @@ function update() {
         player.anims.play('turn');
     }
 
-    if (cursors.up.isDown && player.body.touching.down) {
+    if (keys.W.isDown && player.body.touching.down) {
         player.setVelocityY(-330);
     }
 }
