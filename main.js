@@ -107,17 +107,17 @@ function create() {
     });
 
     //  Some stars to collect, 12 in total, evenly spaced 70 pixels apart along the x axis
-    stars = this.physics.add.group({
-        key: 'star',
-        repeat: 11,
-        setXY: { x: 12, y: 0, stepX: 70 }
-    });
+    stars = this.physics.add.group();
+    stars.defaultKey = "star";
 
+    stars.create(400, 100);
+
+    stars.create(650, 100)
+
+    stars.create(950, 100)
+    
     stars.children.iterate(function (child) {
-
-        //  Give each star a slightly different bounce
-        child.setBounceY(Phaser.Math.FloatBetween(0.4, 0.8));
-
+        child.setBounceY(Phaser.Math.FloatBetween(0.1, 0.3));
     });
 
     
