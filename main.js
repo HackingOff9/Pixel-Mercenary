@@ -1,7 +1,7 @@
 var config = {
     type: Phaser.AUTO,
-    width: 800,
-    height: 600,
+    width: 1500,
+    height: 900,
     physics: {
         default: 'arcade',
         arcade: {
@@ -18,7 +18,7 @@ var config = {
 
 var player;
 var stars;
-var platforms;
+var road;
 var cursors;
 var score = 0;
 var gameOver = false;
@@ -29,12 +29,12 @@ var game = new Phaser.Game(config);
 
 function preload() {
     this.load.image('sky', 'src/games/firstgame/assets/sky.png');
-    this.load.image('ground', 'src/games/firstgame/assets/platform.png');
+    this.load.image('road', 'src/games/firstgame/assets/road.png');
     this.load.image('star', 'src/games/firstgame/assets/star.png');
     this.load.spritesheet('dude', 'src/games/firstgame/assets/dude.png', { frameWidth: 32, frameHeight: 48 });
 }
 
-const worldWidth = 2400;
+const worldWidth = 1600;
 const worldHeight = 600;
 
 function create() {
@@ -55,19 +55,24 @@ function create() {
     });
 
     //  A simple background for our game
-    this.add.image(800, 300, 'sky');
-
     this.add.image(400, 300, 'sky');
+    this.add.image(800, 300, 'sky');
+    this.add.image(1200, 300, 'sky');
 
 
     //  The platforms group contains the ground and the 2 ledges we can jump on
-    platforms = this.physics.add.staticGroup();
+    road = this.physics.add.staticGroup();
 
     //  Here we create the ground.
     //  Scale it to fit the width of the game (the original sprite is 400x32 in size)
-    platforms.create(400, 568, 'ground').setScale(2).refreshBody();
-    platforms.create(800, 568, 'ground').setScale(2).refreshBody();
-    
+    road.create(150, 799, 'road').setScale(2).refreshBody();
+    road.create(350, 799, 'road').setScale(2).refreshBody();
+    road.create(550, 799, 'road').setScale(2).refreshBody();
+    road.create(750, 799, 'road').setScale(2).refreshBody();
+    road.create(950, 799, 'road').setScale(2).refreshBody();
+    road.create(1150, 799, 'road').setScale(2).refreshBody();
+    road.create(1350, 799, 'road').setScale(2).refreshBody();
+
 
     // The player and its settings
     player = this.physics.add.sprite(100, 450, 'dude');
@@ -121,8 +126,8 @@ function create() {
     scoreText = this.add.text(16, 16, 'score: 0', { fontSize: '32px', fill: '#000' });
 
     //  Collide the player and the stars with the platforms
-    this.physics.add.collider(player, platforms);
-    this.physics.add.collider(stars, platforms);
+    this.physics.add.collider(player, road);
+    this.physics.add.collider(stars, road);
 
     //  Checks to see if the player overlaps with any of the stars, if he does call the collectStar function
     this.physics.add.overlap(player, stars, collectStar, null, this);
