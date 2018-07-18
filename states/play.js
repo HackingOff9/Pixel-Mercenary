@@ -1,7 +1,6 @@
 var player;
 var stars;
 var road;
-var heart;
 var cursors;
 var gameOver = false;
 var scoreText;
@@ -9,6 +8,9 @@ var keys;
 
 const worldWidth = 1600;
 const worldHeight = 600;
+
+const startHealth = 3;
+const maxHealth = 5; 
 
 export default class Play {
     preload() {
@@ -20,6 +22,9 @@ export default class Play {
     }
     init() {
         this.score = 0;
+
+        this.hearts = undefined;
+        this.health = startHealth;
     }
     create() {
         this.physics.world.setBounds(0, 0, worldWidth, worldHeight);
@@ -38,18 +43,12 @@ export default class Play {
             Right: Phaser.Input.Keyboard.KeyCodes.RIGHT
         });
 
-        //  A simple background for our game
         this.add.image(400, 300, 'sky');
         this.add.image(800, 300, 'sky');
         this.add.image(1200, 300, 'sky');
-        this.add.image(25, 25, 'heart');
 
-
-        //  The platforms group contains the ground and the 2 ledges we can jump on
         road = this.physics.add.staticGroup();
 
-        //  Here we create the ground.
-        //  Scale it to fit the width of the game (the original sprite is 400x32 in size)
         road.create(150, 799, 'road').setScale(2).refreshBody();
         road.create(350, 799, 'road').setScale(2).refreshBody();
         road.create(550, 799, 'road').setScale(2).refreshBody();
@@ -57,12 +56,8 @@ export default class Play {
         road.create(950, 799, 'road').setScale(2).refreshBody();
         road.create(1150, 799, 'road').setScale(2).refreshBody();
         road.create(1350, 799, 'road').setScale(2).refreshBody();
-
-
-        // The player and its settings
+    
         player = this.physics.add.sprite(100, 450, 'dude');
-
-        //  Player physics properties. Give the little guy a slight bounce.
         player.setBounce(0.2);
         player.setCollideWorldBounds(true);
 
@@ -70,7 +65,6 @@ export default class Play {
         camera.startFollow(player);
         camera.setBounds(0, 0, worldWidth, worldHeight);
 
-        //  Our player animations, turning, walking left and walking right.
         this.anims.create({
             key: 'left',
             frames: this.anims.generateFrameNumbers('dude', { start: 0, end: 3 }),
@@ -91,35 +85,60 @@ export default class Play {
             repeat: -1
         });
 
-        //  Some stars to collect, 12 in total, evenly spaced 70 pixels apart along the x axis
         stars = this.physics.add.group();
         stars.defaultKey = "star";
-
         stars.create(400, 100);
-
         stars.create(650, 100)
-
         stars.create(950, 100)
-
-        stars.children.iterate(function (child) {
+        stars.children.iterate(child => {
             child.setBounceY(Phaser.Math.FloatBetween(0.1, 0.3));
         });
 
-
-
-        //  The score
-
-        //  Collide the player and the stars with the platforms
         this.physics.add.collider(player, road);
         this.physics.add.collider(stars, road);
-
-        //  Checks to see if the player overlaps with any of the stars, if he does call the collectStar function
         this.physics.add.overlap(player, stars, this.collectStar, null, this);
 
         this.scene.manager.start("hud", this);
 
+        this.hearts = this.add.group();
+        this.hearts.defaultKey = "heart";
+        //this.reconcileHearts();
+
+        window.fun = x => {
+            this.health += x
+        }
+        window.hearts = this.hearts;
     }
-    update() {
+    reconcileHearts() {
+        const hearts = this.hearts;
+        const health = this.health;
+
+        const diff = health - hearts.getChildren().length;
+        console.log("diff", diff);
+
+        // Positive diff, spawn more hearts
+        if (diff > 0) {
+            for (let i = 0; i < diff; i++) {
+                const spawnedHearts = hearts.getChildren().length;
+                const heartNumber = spawnedHearts + 1;
+                hearts.create(50+100*heartNumber, 50)
+            }
+        } 
+
+        // Negative diff, reduce hearts
+        else if (diff < 0) {
+            const deleteNumber = -diff;
+            const spawnedHearts = hearts.getChildren();
+            const toDestroy = [];
+            for (let i = 0; i < deleteNumber; i++) {
+              toDestroy.push(spawnedHearts[spawnedHearts.length -i -1])
+            }
+            for (let heart of toDestroy) {
+                hearts.killAndHide(heart)
+            }
+        }
+    }
+    update() {        
         if (gameOver) {
             return;
         }
@@ -140,6 +159,8 @@ export default class Play {
         if (keys.W.isDown && player.body.touching.down) {
             player.setVelocityY(-330);
         }
+
+       this.reconcileHearts();
     }
     collectStar(player, star) {
         star.disableBody(true, true);
