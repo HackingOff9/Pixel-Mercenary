@@ -1,11 +1,12 @@
 var player;
-var hearts;
 var stars;
 var road;
 var cursors;
 var gameOver = false;
 var score;
+var scoreText
 var keys;
+var house1;
 const worldWidth = 1600;
 const worldHeight = 600;
 const startHealth = 3;
@@ -17,12 +18,13 @@ export default class Play {
         this.load.image('road', 'src/games/firstgame/assets/road.png');
         this.load.image('star', 'src/games/firstgame/assets/star.png');
         this.load.spritesheet('dude', 'src/games/firstgame/assets/dude.png', { frameWidth: 32, frameHeight: 48 });
-        this.load.image('heart', 'src/games/firstgame/assets/heart.png')
+        this.load.image('heart', 'src/games/firstgame/assets/heart.png');
+        this.load.image('house1','src/games/firstgame/assets/house1.png');
+        
     }
     init() {
-        this.scoreText = 0;
+        this.score = 0;
         this.stars = undefined;
-        this.hearts = undefined;
         this.health = startHealth;
     }
     create() {
@@ -45,6 +47,7 @@ export default class Play {
         this.add.image(400, 300, 'sky');
         this.add.image(800, 300, 'sky');
         this.add.image(1200, 300, 'sky');
+        this.add.image(350,400, 'house1');
 
         road = this.physics.add.staticGroup();
 
@@ -55,6 +58,7 @@ export default class Play {
         road.create(950, 799, 'road').setScale(2).refreshBody();
         road.create(1150, 799, 'road').setScale(2).refreshBody();
         road.create(1350, 799, 'road').setScale(2).refreshBody();
+        
     
         player = this.physics.add.sprite(100, 450, 'dude');
         player.setBounce(0.2);
@@ -84,11 +88,14 @@ export default class Play {
             repeat: -1
         });
 
-        hearts = this.physics.add.group();
-        hearts.defaultKey = "heart";
-        hearts.create(1300, 100);
-        hearts.children.iterate(child => {
-            child.setBounceY(Phaser.Math.FloatBetween(0.1, 0.3));
+        
+
+
+        stars = this.physics.add.group ();
+        stars.defaultKey = "star";
+        stars.create (1300, 100);
+        stars.children.iterate (child => {
+            child.setBounceY(Phaser.Math.FloatBetween (0.1,0.3));
         });
 
         stars = this.physics.add.group();
@@ -102,51 +109,14 @@ export default class Play {
         });
 
         this.physics.add.collider(player, road);
-        this.physics.add.collider(hearts, road);
         this.physics.add.collider(stars, road);
-        this.physics.add.overlap(player, hearts, this.collectHeart, null, this);
         this.physics.add.overlap(player, stars, this.collectStar, null, this);
 
         this.scene.manager.start("hud", this);
 
-        this.hearts = this.add.group();
-        this.hearts.defaultKey = "heart";
-        //this.reconcileHearts();
 
-        window.fun = x => {
-            this.health += x
-        }
-        window.hearts = this.hearts;
     }
-    reconcileHearts() {
-        const hearts = this.hearts;
-        const health = this.health;
 
-        const diff = health - hearts.getChildren().length;
-        console.log("diff", diff);
-
-        // Positive diff, spawn more hearts
-        if (diff > 0) {
-            for (let i = 0; i < diff; i++) {
-                const spawnedHearts = hearts.getChildren().length;
-                const heartNumber = spawnedHearts + 1;
-                hearts.create(50+100*heartNumber, 50)
-            }
-        } 
-
-        // Negative diff, reduce hearts
-        else if (diff < 0) {
-            const deleteNumber = -diff;
-            const spawnedHearts = hearts.getChildren();
-            const toDestroy = [];
-            for (let i = 0; i < deleteNumber; i++) {
-              toDestroy.push(spawnedHearts[spawnedHearts.length -i -1])
-            }
-            for (let heart of toDestroy) {
-                hearts.killAndHide(heart)
-            }
-        }
-    }
     update() {        
         if (gameOver) {
             return;
@@ -168,15 +138,14 @@ export default class Play {
         if (keys.W.isDown && player.body.touching.down) {
             player.setVelocityY(-330);
         }
-
-       this.reconcileHearts();
     }
     collectStar(player, star) {
         star.disableBody(true, true);
-        this.scoreText += 10;
+        this.score += 10;
+        this.events.emit("updateHUD");
     }
     collectHeart(player, heart) {
         heart.disableBody(true,true);
-        this.health += 1
+        this.health += 1; 
     }
 }
