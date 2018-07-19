@@ -1,14 +1,13 @@
 var player;
+var hearts;
 var stars;
 var road;
 var cursors;
 var gameOver = false;
-var scoreText;
+var score;
 var keys;
-
 const worldWidth = 1600;
 const worldHeight = 600;
-
 const startHealth = 3;
 const maxHealth = 5; 
 
@@ -21,8 +20,8 @@ export default class Play {
         this.load.image('heart', 'src/games/firstgame/assets/heart.png')
     }
     init() {
-        this.score = 0;
-
+        this.scoreText = 0;
+        this.stars = undefined;
         this.hearts = undefined;
         this.health = startHealth;
     }
@@ -85,17 +84,27 @@ export default class Play {
             repeat: -1
         });
 
-        stars = this.physics.add.group();
-        stars.defaultKey = "star";
-        stars.create(400, 100);
-        stars.create(650, 100)
-        stars.create(950, 100)
-        stars.children.iterate(child => {
+        hearts = this.physics.add.group();
+        hearts.defaultKey = "heart";
+        hearts.create(1300, 100);
+        hearts.children.iterate(child => {
             child.setBounceY(Phaser.Math.FloatBetween(0.1, 0.3));
         });
 
+        stars = this.physics.add.group();
+        stars.defaultKey = "star";
+        stars.create(100, 100);
+        stars.create(650, 100);
+        stars.create(950, 100);
+        stars.children.iterate(child => {
+            child.setBounceY(Phaser.Math.FloatBetween(0.1, 0.3));
+        
+        });
+
         this.physics.add.collider(player, road);
+        this.physics.add.collider(hearts, road);
         this.physics.add.collider(stars, road);
+        this.physics.add.overlap(player, hearts, this.collectHeart, null, this);
         this.physics.add.overlap(player, stars, this.collectStar, null, this);
 
         this.scene.manager.start("hud", this);
@@ -164,6 +173,10 @@ export default class Play {
     }
     collectStar(player, star) {
         star.disableBody(true, true);
-        this.score += 10;
+        this.scoreText += 10;
+    }
+    collectHeart(player, heart) {
+        heart.disableBody(true,true);
+        this.health += 1
     }
 }
