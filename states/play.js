@@ -4,7 +4,7 @@ var road;
 var cursors;
 var gameOver = false;
 var score;
-var scoreText
+var scoreText;
 var keys;
 var house1;
 const worldWidth = 1600;
@@ -20,6 +20,7 @@ export default class Play {
         this.load.spritesheet('dude', 'src/games/firstgame/assets/dude.png', { frameWidth: 32, frameHeight: 48 });
         this.load.image('heart', 'src/games/firstgame/assets/heart.png');
         this.load.image('house1','src/games/firstgame/assets/house1.png');
+        this.load.image('house2','src/games/firstgame/assets/house2.png');
         
     }
     init() {
@@ -47,7 +48,9 @@ export default class Play {
         this.add.image(400, 300, 'sky');
         this.add.image(800, 300, 'sky');
         this.add.image(1200, 300, 'sky');
-        this.add.image(350,400, 'house1');
+        this.add.image(350, 374, 'house1');
+        const house2=this.add.image(900, 314, 'house2');
+        house2.setScale(1.78)
 
         road = this.physics.add.staticGroup();
 

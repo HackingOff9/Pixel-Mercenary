@@ -15,7 +15,7 @@ export default class HUD {
     create() {
         this.scoreText = this.add.text(800, 20, 'Score: 0', { 
             fontSize: '32px', 
-            color: '#000' 
+            color: 'white' 
         });
 
         this.hearts = this.add.group();
