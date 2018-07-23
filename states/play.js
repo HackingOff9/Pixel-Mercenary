@@ -11,6 +11,9 @@ const worldHeight = 600;
 const startHealth = 3;
 const maxHealth = 5; 
 let door;
+let bullets;
+let canFire;
+let facingRight;
 
 export default class Play {
     preload() {
@@ -28,6 +31,8 @@ export default class Play {
         this.score = 0;
         this.stars = undefined;
         this.health = startHealth;
+        canFire = true;
+        facingRight = true;
     }
     create() {
         this.physics.world.setBounds(0, 0, worldWidth, worldHeight);
@@ -43,7 +48,9 @@ export default class Play {
             Down: Phaser.Input.Keyboard.KeyCodes.DOWN,
 
             D: Phaser.Input.Keyboard.KeyCodes.D,
-            Right: Phaser.Input.Keyboard.KeyCodes.RIGHT
+            Right: Phaser.Input.Keyboard.KeyCodes.RIGHT,
+
+            J: Phaser.Input.Keyboard.KeyCodes.J
         });
 
         this.add.image(400, 300, 'sky');
@@ -62,6 +69,8 @@ export default class Play {
             repeat: -1
         });
 
+        bullets = this.physics.add.group();
+
         road = this.physics.add.staticGroup();
 
         road.create(150, 799, 'road').setScale(2).refreshBody();
@@ -79,6 +88,7 @@ export default class Play {
         player = this.physics.add.sprite(100, 450, 'dude');
         player.setBounce(0.2);
         player.setCollideWorldBounds(true);
+        player.setGravityY(320)
 
         const camera = this.cameras.main;
         camera.startFollow(player);
@@ -112,7 +122,7 @@ export default class Play {
         stars.create(950, 100);
         stars.children.iterate(child => {
             child.setBounceY(Phaser.Math.FloatBetween(0.1, 0.3));
-        
+            child.setGravityY(320)
         });
 
         this.physics.add.collider(player, road);
@@ -131,13 +141,19 @@ export default class Play {
             return;
         }
 
+        if (keys.J.isDown) {
+            this.spawnBullet();
+        }
+
         if (keys.A.isDown) {
             player.setVelocityX(-160);
             player.anims.play('left', true);
+            facingRight = false;
         }
         else if (keys.D.isDown) {
             player.setVelocityX(160);
             player.anims.play('right', true);
+            facingRight = true;
         }
         else {
             player.setVelocityX(0);
@@ -157,4 +173,24 @@ export default class Play {
         heart.disableBody(true, true);
         this.health += 1; 
     }
+    spawnBullet() {
+        if (canFire === true) {
+            canFire = false;
+            const bullet = bullets.create(player.x, player.y, "star")
+
+            if (facingRight === true) {
+                bullet.setVelocityX(500)
+            } else {
+                bullet.setVelocityX(-500)
+            }
+
+
+            this.time.addEvent({
+                delay: 400,
+                callback: () => {
+                    canFire = true;
+                }
+            });
+        }
+    }   
 }
