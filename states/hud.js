@@ -8,7 +8,7 @@ export default class HUD {
         this.play = play;
 
         play.events.addListener("updateHUD", () => {
-            console.log("Hud updated")
+            console.log("Hud updated", play.score)
             this.scoreText.setText('Score: ' + play.score);
         })
     }
