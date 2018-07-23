@@ -3,7 +3,6 @@ var stars;
 var road;
 var cursors;
 var gameOver = false;
-var score;
 var scoreText;
 var keys;
 var house1;
@@ -23,6 +22,7 @@ export default class Play {
         this.load.image('house1', 'src/games/firstgame/assets/house1.png');
         this.load.image('house2', 'src/games/firstgame/assets/house2.png');
         this.load.spritesheet('door1', 'src/games/firstgame/assets/door1.png', { frameWidth:150, frameHeight: 150});
+        this.load.image("platform", "src/games/firstgame/assets/platform.png");
     }
     init() {
         this.score = 0;
@@ -71,6 +71,10 @@ export default class Play {
         road.create(950, 799, 'road').setScale(2).refreshBody();
         road.create(1150, 799, 'road').setScale(2).refreshBody();
         road.create(1350, 799, 'road').setScale(2).refreshBody();
+
+        road.create(260, 445, 'platform').setScale(.25).refreshBody();
+        road.create(437.5, 445, 'platform').setScale(.25).refreshBody();
+        road.create(888, 468, 'platform').setScale(.15).refreshBody();
             
         player = this.physics.add.sprite(100, 450, 'dude');
         player.setBounce(0.2);
@@ -146,6 +150,7 @@ export default class Play {
     }
     collectStar(player, star) {
         star.disableBody(true, true);
+        this.score += 10
         this.events.emit("updateHUD");
     }
     collectHeart(player, heart) {
