@@ -100,12 +100,6 @@ export default class Play {
             repeat: -1
         });
 
-        stars = this.physics.add.group();
-        stars.defaultKey = "star";
-        stars.create(1300, 100);
-        stars.children.iterate(child => {
-            child.setBounceY(Phaser.Math.FloatBetween(0.1, 0.3));
-        });
 
         stars = this.physics.add.group();
         stars.defaultKey = "star";
