@@ -5,12 +5,11 @@ var cursors;
 var gameOver = false;
 var scoreText;
 var keys;
+var hearts;
 var house1;
-var cloud;
 const worldWidth = 1600;
-const worldHeight = 600;
+const worldWidth = 4950;
 const startHealth = 3;
-const maxHealth = 5;
 let door;
 let bullets;
 let canFire;
@@ -28,7 +27,13 @@ export default class Play {
         this.load.image('house2', 'src/games/firstgame/assets/house2.png');
         this.load.image('cloud', 'src/games/firstgame/assets/cloud.png');
         this.load.spritesheet('door1', 'src/games/firstgame/assets/door1.png', { frameWidth: 150, frameHeight: 150 });
+        this.load.image('house3', 'src/games/firstgame/assets/house3.png');
+        this.load.image('house4', 'src/games/firstgame/assets/house4.png');
+        this.load.image('house5', 'src/games/firstgame/assets/house5.png');
+        this.load.spritesheet('door1', 'src/games/firstgame/assets/door1.png', { frameWidth:150, frameHeight: 150});
         this.load.image("platform", "src/games/firstgame/assets/platform.png");
+        this.load.image("bullet", "src/games/firstgame/assets/bullet.png");
+        
     }
     init() {
         this.score = 0;
@@ -59,12 +64,29 @@ export default class Play {
         this.add.image(400, 300, 'sky');
         this.add.image(800, 300, 'sky');
         this.add.image(1200, 300, 'sky');
-        this.add.image(350, 374, 'house1');
-        const house2 = this.add.image(900, 314, 'house2');
+        this.add.image(1600, 300, 'sky');
+        this.add.image(2000, 300, 'sky');
+        this.add.image(2400, 300, 'sky');
+        this.add.image(2800, 300, 'sky');
+        this.add.image(3200, 300, 'sky');
+        this.add.image(3600, 300, 'sky');
+        this.add.image(4000, 300, 'sky');
+        this.add.image(4400, 300, 'sky');
+        this.add.image(4800, 300, 'sky');
+        this.add.image(4950, 300, 'sky');        
+        this.add.image(800, 374, 'house1');
+        const house2 = this.add.image(1600, 314, 'house2');
         house2.setScale(1.78)
+        this.add.image(2400, 407, 'house3');
+        this.add.image(3200, 299, 'house4')
+        const house5 = this.add.image(4000, 340, 'house5')
+        house5.setScale(1.75)
+
+        
+        
 
 
-        door = this.add.sprite(1350, 524, 'door1');
+        door = this.add.sprite(4500, 524, 'door1');
         this.anims.create({
             key: 'door-animation',
             frames: this.anims.generateFrameNumbers('door1', { start: 0, end: 2 }),
@@ -76,6 +98,11 @@ export default class Play {
 
         road = this.physics.add.staticGroup();
 
+        for (let i = 0; i < 26; i++) {
+            road.create(150 + 200 * i, 799, 'road').setScale(2).refreshBody();
+
+        }
+        /*
         road.create(150, 799, 'road').setScale(2).refreshBody();
         road.create(350, 799, 'road').setScale(2).refreshBody();
         road.create(550, 799, 'road').setScale(2).refreshBody();
@@ -88,6 +115,42 @@ export default class Play {
         road.create(437.5, 445, 'platform').setScale(.25).refreshBody();
         road.create(888, 468, 'platform').setScale(.15).refreshBody();
 
+        road.create(1550, 799, 'road').setScale(2).refreshBody();
+        road.create(1750, 799, 'road').setScale(2).refreshBody();
+        road.create(1950, 799, 'road').setScale(2).refreshBody();
+        road.create(2150, 799, 'road').setScale(2).refreshBody();
+        road.create(2350, 799, 'road').setScale(2).refreshBody();
+        road.create(2550, 799, 'road').setScale(2).refreshBody();
+        road.create(2750, 799, 'road').setScale(2).refreshBody();
+        road.create(2950, 799, 'road').setScale(2).refreshBody();
+        road.create(3150, 799, 'road').setScale(2).refreshBody();
+        road.create(3150, 799, 'road').setScale(2).refreshBody();
+        road.create(3350, 799, 'road').setScale(2).refreshBody();
+        road.create(3550, 799, 'road').setScale(2).refreshBody();
+        road.create(3750, 799, 'road').setScale(2).refreshBody();
+        road.create(3750, 799, 'road').setScale(2).refreshBody();
+        road.create(3950, 799, 'road').setScale(2).refreshBody();
+        road.create(4150, 799, 'road').setScale(2).refreshBody();
+        road.create(4350, 799, 'road').setScale(2).refreshBody();
+        road.create(4550, 799, 'road').setScale(2).refreshBody();
+        road.create(4750, 799, 'road').setScale(2).refreshBody();
+        road.create(4950, 799, 'road').setScale(2).refreshBody();
+        */
+
+                
+        road.create(710, 445, 'platform').setScale(.25).refreshBody();
+        road.create(798.75, 295, 'platform').setScale(.25).refreshBody();
+        road.create(887.5, 445, 'platform').setScale(.25).refreshBody();
+        road.create(1504, 459, 'platform').setScale(.125).refreshBody();
+        road.create(1520.5, 225, 'platform').setScale(.21).refreshBody(); 
+        road.create(1588, 468, 'platform').setScale(.15).refreshBody();
+        road.create(1588, 325, 'platform').setScale(.25).refreshBody();
+        road.create(1605, 100, 'platform').setScale(.085).refreshBody();
+        road.create(1646.5, 225, 'platform').setScale(.21).refreshBody();
+        road.create(1663, 459, 'platform').setScale(.125).refreshBody();
+        road.create(2400, 495, 'platform').setScale(.15).refreshBody();
+        road.create(2455, 330, 'platform').setScale(.075).refreshBody();
+        road.create(3052.5, 420, 'platform').setScale(.225).refreshBody();   
 
         player = this.physics.add.sprite(100, 450, 'dude');
         player.setBounce(0.2);
@@ -121,17 +184,26 @@ export default class Play {
 
         stars = this.physics.add.group();
         stars.defaultKey = "star";
-        stars.create(100, 100);
-        stars.create(650, 100);
-        stars.create(950, 100);
+        stars.create(800, 25);
+        stars.create(2455, 25);
         stars.children.iterate(child => {
             child.setBounceY(Phaser.Math.FloatBetween(0.1, 0.3));
             child.setGravityY(320)
         });
 
+        hearts = this.physics.add.group();
+        hearts.defaultKey = "heart";
+        hearts.create(1605, 25);
+        hearts.children.iterate(h => h.setGravityY(320));
+
+            
+
+
         this.physics.add.collider(player, road);
         this.physics.add.collider(stars, road);
+        this.physics.add.collider(hearts, road);
         this.physics.add.overlap(player, stars, this.collectStar, null, this);
+        this.physics.add.overlap(player, hearts, this.collectHeart, null, this);
 
         this.scene.manager.start("hud", this);
 
@@ -215,7 +287,7 @@ export default class Play {
     }
     collectStar(player, star) {
         star.disableBody(true, true);
-        this.score += 10
+        this.score += 5;
         this.events.emit("updateHUD");
     }
     collectHeart(player, heart) {
@@ -225,7 +297,7 @@ export default class Play {
     spawnBullet() {
         if (canFire === true) {
             canFire = false;
-            const bullet = bullets.create(player.x, player.y, "star")
+            const bullet = bullets.create(player.x, player.y, "bullet")
 
             if (facingRight === true) {
                 bullet.setVelocityX(500)
