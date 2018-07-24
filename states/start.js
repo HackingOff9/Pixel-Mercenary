@@ -6,8 +6,6 @@ export default {
         //this.load.image("instructions", "img/instructions.png");
     },
     create() {
-
-
         const title = this.add.image(750, 500, "title");
         title.setOrigin(0.5)
         //title.setScale(5);

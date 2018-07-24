@@ -7,14 +7,14 @@ var scoreText;
 var keys;
 var hearts;
 var house1;
+const worldWidth = 1600;
 const worldWidth = 4950;
-const worldHeight = 600;
 const startHealth = 3;
-const maxHealth = 5;
 let door;
 let bullets;
 let canFire;
 let facingRight;
+let enemies;
 
 export default class Play {
     preload() {
@@ -25,6 +25,8 @@ export default class Play {
         this.load.image('heart', 'src/games/firstgame/assets/heart.png');
         this.load.image('house1', 'src/games/firstgame/assets/house1.png');
         this.load.image('house2', 'src/games/firstgame/assets/house2.png');
+        this.load.image('cloud', 'src/games/firstgame/assets/cloud.png');
+        this.load.spritesheet('door1', 'src/games/firstgame/assets/door1.png', { frameWidth: 150, frameHeight: 150 });
         this.load.image('house3', 'src/games/firstgame/assets/house3.png');
         this.load.image('house4', 'src/games/firstgame/assets/house4.png');
         this.load.image('house5', 'src/games/firstgame/assets/house5.png');
@@ -108,6 +110,11 @@ export default class Play {
         road.create(950, 799, 'road').setScale(2).refreshBody();
         road.create(1150, 799, 'road').setScale(2).refreshBody();
         road.create(1350, 799, 'road').setScale(2).refreshBody();
+
+        road.create(260, 445, 'platform').setScale(.25).refreshBody();
+        road.create(437.5, 445, 'platform').setScale(.25).refreshBody();
+        road.create(888, 468, 'platform').setScale(.15).refreshBody();
+
         road.create(1550, 799, 'road').setScale(2).refreshBody();
         road.create(1750, 799, 'road').setScale(2).refreshBody();
         road.create(1950, 799, 'road').setScale(2).refreshBody();
@@ -213,8 +220,27 @@ export default class Play {
 
         this.scene.manager.start("hud", this);
 
+        cloud = this.physics.add.group ();
+        let cloud = this.add.sprite(1000, 100, "cloud")
+        cloud.setScale(2)
+        this.add.tween({
+            targets: [cloud],
+            durration: 1000,
+            delay: 0,
+            yoyo: true,
+            repeat: Infinity,
+            ease: 'Sine.easeInOut',
+            x: {
+                getStart: () => 500,
+                getEnd: () => 600
+            }
+        });
 
-        const star = this.add.sprite(200, 200, "star")
+
+
+        enemies = this.physics.add.group();
+        let star = enemies.create(500, 500, "star")
+        star.setData("health", 3)
         star.setScale(2)
         this.add.tween({
             targets: [star],
@@ -262,6 +288,15 @@ export default class Play {
         if (keys.W.isDown && player.body.touching.down) {
             player.setVelocityY(-330);
         }
+
+        this.physics.overlap(bullets, enemies, (bullet, enemy) => {
+            if (enemy.getData("health") >= 2) {
+                enemy.setData("health", enemy.getData("health") - 1);
+            } else {
+                enemy.destroy();
+            }
+            bullet.destroy();
+        })
     }
     collectStar(player, star) {
         star.disableBody(true, true);
@@ -291,5 +326,5 @@ export default class Play {
                 }
             });
         }
-    }   
+    }
 }
