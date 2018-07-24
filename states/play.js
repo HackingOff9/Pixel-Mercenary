@@ -156,7 +156,18 @@ export default class Play {
         road.create(1663, 459, 'platform').setScale(.125).refreshBody();
         road.create(2400, 495, 'platform').setScale(.15).refreshBody();
         road.create(2455, 330, 'platform').setScale(.075).refreshBody();
-        road.create(3052.5, 420, 'platform').setScale(.225).refreshBody();   
+        road.create(3052.5, 420, 'platform').setScale(.225).refreshBody();
+        road.create(3110, 310, 'platform').setScale(.3).refreshBody();
+        road.create(3175, 550, 'platform').setScale(.025).refreshBody();
+        road.create(3200, 150, 'platform').setScale(.1).refreshBody();
+        road.create(3290, 310, 'platform').setScale(.3).refreshBody();
+        road.create(3250, 550, 'platform').setScale(.025).refreshBody();
+        road.create(3333.5, 420, 'platform').setScale(.225).refreshBody();
+        road.create(3882.5, 360, 'platform').setScale(.26).refreshBody(); 
+        road.create(3995, 505, 'platform').setScale(.26).refreshBody();
+        road.create(3995, 270, 'platform').setScale(.3).refreshBody(); 
+        road.create(4108, 360, 'platform').setScale(.26).refreshBody();
+        road.create(4185, 145, 'platform').setScale(.26).refreshBody(); 
 
         player = this.physics.add.sprite(100, 450, 'dude');
         player.setBounce(0.2);
@@ -192,6 +203,8 @@ export default class Play {
         stars.defaultKey = "star";
         stars.create(800, 25);
         stars.create(2455, 25);
+        stars.create(3200, 25);
+        stars.create(4185, 25);
         stars.children.iterate(child => {
             child.setBounceY(Phaser.Math.FloatBetween(0.1, 0.3));
             child.setGravityY(320)
