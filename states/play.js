@@ -7,14 +7,16 @@ var scoreText;
 var keys;
 var hearts;
 var house1;
-const worldWidth = 1600;
 const worldWidth = 4950;
+const worldHeight = 900;
 const startHealth = 3;
 let door;
 let bullets;
 let canFire;
 let facingRight;
 let enemies;
+let clouds;
+let tree
 
 export default class Play {
     preload() {
@@ -33,8 +35,10 @@ export default class Play {
         this.load.spritesheet('door1', 'src/games/firstgame/assets/door1.png', { frameWidth:150, frameHeight: 150});
         this.load.image("platform", "src/games/firstgame/assets/platform.png");
         this.load.image("bullet", "src/games/firstgame/assets/bullet.png");
-        
-    }
+        this.load.image("bench","src/games/firstgame/assets/bench.png");
+        this.load.image("tree", "src/games/firstgame/assets/tree.png");
+        this.load.image ("owner","src/games/firstgame/assets/owner.png")
+    }   
     init() {
         this.score = 0;
         this.stars = undefined;
@@ -81,7 +85,9 @@ export default class Play {
         this.add.image(3200, 299, 'house4')
         const house5 = this.add.image(4000, 340, 'house5')
         house5.setScale(1.75)
-
+        this.add.image (1000,550, "bench");
+        this.add.image (1500,550, "tree");
+        this.add.image (2000,550, "owner");
         
         
 
@@ -207,7 +213,7 @@ export default class Play {
 
         this.scene.manager.start("hud", this);
 
-        cloud = this.physics.add.group ();
+        clouds = this.physics.add.group();
         let cloud = this.add.sprite(1000, 100, "cloud")
         cloud.setScale(2)
         this.add.tween({
