@@ -18,6 +18,11 @@ export default class HUD {
             color: 'white' 
         });
 
+        this.healthText = this.add.text(200, 20, `Health: ${this.play.health}`, {
+            fontSize: '32px',
+            color: "red"
+        });
+
         this.hearts = this.add.group();
         this.hearts.defaultKey = "heart";
 
@@ -25,18 +30,21 @@ export default class HUD {
          * Code used for debugging
          */
         window.fun = x => {
-            this.health += x
+            this.play.health += x
         }
         window.hearts = this.hearts;
     }
     update() {
-        this.reconcileHearts();
+        //this.reconcileHearts();
+        this.healthText.setText(`Health: ${this.play.health}`)
     }
     reconcileHearts() {
+        //console.log("hearts updating")
         const hearts = this.hearts;
         const health = this.play.health;
 
         const diff = health - hearts.getChildren().length;
+        console.log(diff)
 
         // Positive diff, spawn more hearts
         if (diff > 0) {
@@ -55,11 +63,20 @@ export default class HUD {
             for (let i = 0; i < deleteNumber; i++) {
               toDestroy.push(spawnedHearts[spawnedHearts.length -i -1])
             }
+            //setInterval(() => {
+                toDestroy.forEach(h => {
+                    console.log(this)
+                    h.destroy() 
+                })
+            //}, 0)
+            /*
             for (let heart of toDestroy) {
                 setInterval(() => {
-                    hearts.killAndHide(heart)
+                    //hearts.killAndHide(heart)
+                    //heart.destroy();
                 }, 0)
             }
+            */
         }
     }
 }
