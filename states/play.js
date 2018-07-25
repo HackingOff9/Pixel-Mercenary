@@ -85,9 +85,9 @@ export default class Play {
         this.add.image(3200, 299, 'house4')
         const house5 = this.add.image(4000, 340, 'house5')
         house5.setScale(1.75)
-        this.add.image (1000,550, "bench");
-        this.add.image (1500,550, "tree");
-        this.add.image (2000,550, "owner");
+        this.add.image (1200,550, "bench");
+        this.add.image (1325,525, "tree");
+        this.add.image (3800,550, "owner");
         
         
 
@@ -227,18 +227,32 @@ export default class Play {
         this.scene.manager.start("hud", this);
 
         clouds = this.physics.add.group();
-        let cloud = this.add.sprite(1000, 100, "cloud")
+        let cloud = this.add.sprite(1000, 50, "cloud")
         cloud.setScale(2)
         this.add.tween({
             targets: [cloud],
-            durration: 1000,
+            durration: 2000,
             delay: 0,
             yoyo: true,
             repeat: Infinity,
             ease: 'Sine.easeInOut',
             x: {
                 getStart: () => 500,
-                getEnd: () => 600
+                getEnd: () => 700
+            }
+        });
+        let cloud2 = this.add.sprite(2000, 100, "cloud")
+        cloud2.setScale(2)
+        this.add.tween({
+            targets: [cloud2],
+            duration: 2000,
+            delay: 0,
+            yoyo: true,
+            repeat: Infinity,
+            ease: 'Sine.easeInOut',
+            x: {
+                getStart: () => 1100,
+                getEnd: () => 1600,
             }
         });
 
