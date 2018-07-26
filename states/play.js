@@ -98,7 +98,7 @@ export default class Play {
         
 
 
-        door = this.add.sprite(4500, 524, 'door1');
+        door = this.physics.add.sprite(4500, 524, 'door1');
         this.anims.create({
             key: 'door-animation',
             frames: this.anims.generateFrameNumbers('door1', { start: 0, end: 2 }),
@@ -430,12 +430,15 @@ export default class Play {
         })
 
         this.physics.overlap(player, door, (player, door) => {
-            console.log('collide')
+            if (this.score >= 20) {
+                this.scene.start("winner")
+                this.scene.manager.stop("hud")
+            }
         });
 
         this.physics.collide(player, ebullets, (player, bullet) => {
             bullet.destroy();
-            this.health-=0.5;
+            //this.health-=0.5;
         })
 
         if (this.health <= 0) {
