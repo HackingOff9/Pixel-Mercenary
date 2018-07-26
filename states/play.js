@@ -382,10 +382,6 @@ export default class Play {
             console.log('collide')
         });
 
-        this.physics.collide(player, ebullets, (player, bullet) => {
-            bullet.destroy();
-            this.health-=1;
-        })
 
         this.physics.collide(bullets, ebullets, (pBullet, eBullet) => {
             pBullet.destroy();
@@ -442,7 +438,8 @@ export default class Play {
 
         this.physics.collide(player, ebullets, (player, bullet) => {
             bullet.destroy();
-            this.health-=1;
+            this.health-=0.5;
+            console.log("fjkdslfjsdklfkj")
         })
 
         if (this.health <= 0) {
