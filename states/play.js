@@ -266,7 +266,20 @@ export default class Play {
                 getEnd: () => 1600,
             }
         });
-
+        let cloud3 = this.add.sprite(2000, 100, "cloud")
+        cloud2.setScale(3)
+        this.add.tween({
+            targets: [cloud3],
+            duration: 2000,
+            delay: 0,
+            yoyo: true,
+            repeat: Infinity,
+            ease: 'Sine.easeInOut',
+            x: {
+                getStart: () => 2000,
+                getEnd: () => 2500,
+            }
+        });
 
 
         enemies = this.physics.add.group();
