@@ -20,6 +20,7 @@ let enemies;
 let clouds;
 let tree;
 let key;
+let audio;
 export default class Play {
     preload() {
         this.load.image('sky', 'src/games/firstgame/assets/sky.png');
@@ -45,6 +46,7 @@ export default class Play {
         this.load.image("bullet2","src/games/firstgame/assets/bullet2.png");
         this.load.image("lazer","src/games/firstgame/assets/lazer.png");
         this.load.spritesheet('bg', 'src/games/firstgame/assets/bg2.png', { frameWidth: 38.75, frameHeight: 64 });
+        this.load.audio ("audio",['src/games/firstgame/assets/pixelaudio.mp3']);
     }   
     init() {
         this.score = 0;
@@ -52,10 +54,13 @@ export default class Play {
         this.health = startHealth;
         canFire = true;
         facingRight = true;
+        this.audio = undefined;
     }
     create() {
         this.physics.world.setBounds(0, 0, worldWidth, worldHeight);
-
+        this.soundFX = this.sound.add("audio", {loop : true});
+        this.soundFX.play();
+        
         keys = this.input.keyboard.addKeys({
             W: Phaser.Input.Keyboard.KeyCodes.W,
             Up: Phaser.Input.Keyboard.KeyCodes.UP,
@@ -382,10 +387,6 @@ export default class Play {
             console.log('collide')
         });
 
-        this.physics.collide(player, ebullets, (player, bullet) => {
-            bullet.destroy();
-            this.health-=1;
-        })
 
         this.physics.collide(bullets, ebullets, (pBullet, eBullet) => {
             pBullet.destroy();

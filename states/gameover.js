@@ -13,6 +13,7 @@ export default {
             Space: Phaser.Input.Keyboard.KeyCodes.SPACE,
             Enter: Phaser.Input.Keyboard.KeyCodes.ENTER,
         });
+        this.sound.pauseAll();
     },
     update() {
         if (keys.Space.isDown || keys.Enter.isDown) {
