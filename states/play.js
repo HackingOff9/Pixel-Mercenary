@@ -423,9 +423,24 @@ export default class Play {
                 enemy.setData("health", enemy.getData("health") - 1);
             } else {
                 enemy.destroy();
+                enemy.__dead = true;
             }
             bullet.destroy();
         })
+
+        this.physics.overlap(player, door, (player, door) => {
+            console.log('collide')
+        });
+
+        this.physics.collide(player, ebullets, (player, bullet) => {
+            bullet.destroy();
+            this.health--;
+        })
+
+        if (this.health <= 0) {
+            this.scene.manager.stop("hud")
+            this.scene.start("gameover")
+        }
     }
     collectKey(player, key) {
         key.disableBody(true, true);
@@ -434,7 +449,7 @@ export default class Play {
     }
     collectHeart(player, heart) {
         heart.disableBody(true, true);
-        this.health += 1;
+        this.health += 2;
     }
     spawnBullet() {
         if (canFire === true) {
@@ -457,19 +472,14 @@ export default class Play {
         }
     }
     spawnEnemyBullet(enemy, direction) {
+        if (enemy.__dead) {
+            return;
+        }
         const ebullet = ebullets.create(enemy.x, enemy.y, 'bullet')
         if(direction){
             ebullet.setVelocityX(150)
         } else {
             ebullet.setVelocityX(-150)
         }
-        /*
-        this.time.addEvent({
-            delay: 1800,
-            callback: () => {
-                ebullet.destory();
-            }
-        });
-        */
     }
 }
