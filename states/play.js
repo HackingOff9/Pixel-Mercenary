@@ -23,19 +23,19 @@ let key;
 export default class Play {
     preload() {
         this.load.image('sky', 'src/games/firstgame/assets/sky.png');
-        this.load.image('road', 'src/games/firstgame/assets/road.png');
+        this.load.image('road', 'src/games/firstgame/assets/Road.png');
         this.load.image('star', 'src/games/firstgame/assets/star.png');
-        this.load.image('key', 'src/games/firstgame/assets/key.png');
+        this.load.image('key', 'src/games/firstgame/assets/Key.png');
         this.load.spritesheet('dude', 'src/games/firstgame/assets/dude.png', { frameWidth: 32, frameHeight: 48 });
         this.load.image('heart', 'src/games/firstgame/assets/heart.png');
-        this.load.image('house1', 'src/games/firstgame/assets/house1.png');
-        this.load.image('house2', 'src/games/firstgame/assets/house2.png');
+        this.load.image('house1', 'src/games/firstgame/assets/House1.png');
+        this.load.image('house2', 'src/games/firstgame/assets/House2.png');
         this.load.image('cloud', 'src/games/firstgame/assets/cloud.png');
         this.load.spritesheet('door1', 'src/games/firstgame/assets/door1.png', { frameWidth: 150, frameHeight: 150 });
-        this.load.image('house3', 'src/games/firstgame/assets/house3.png');
-        this.load.image('house4', 'src/games/firstgame/assets/house4.png');
-        this.load.image('house5', 'src/games/firstgame/assets/house5.png');
-        this.load.spritesheet('door1', 'src/games/firstgame/assets/door1.png', { frameWidth:150, frameHeight: 150});
+        this.load.image('house3', 'src/games/firstgame/assets/House3.png');
+        this.load.image('house4', 'src/games/firstgame/assets/House4.png');
+        this.load.image('house5', 'src/games/firstgame/assets/House5.png');
+        this.load.spritesheet('door1', 'src/games/firstgame/assets/Door1.png', { frameWidth:150, frameHeight: 150});
         this.load.image("platform", "src/games/firstgame/assets/platform.png");
         this.load.image("bullet", "src/games/firstgame/assets/bullet.png");
         this.load.image("bench","src/games/firstgame/assets/bench.png");
