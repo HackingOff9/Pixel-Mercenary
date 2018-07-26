@@ -100,7 +100,7 @@ export default class Play {
         
 
 
-        door = this.add.sprite(4500, 524, 'door1');
+        door = this.physics.add.sprite(4500, 524, 'door1');
         this.anims.create({
             key: 'door-animation',
             frames: this.anims.generateFrameNumbers('door1', { start: 0, end: 2 }),
@@ -420,6 +420,30 @@ export default class Play {
         if (keys.W.isDown && player.body.touching.down) {
             player.setVelocityY(-330);
         }
+
+
+        this.physics.overlap(bullets, enemies, (bullet, enemy) => {
+            if (enemy.getData("health") >= 2) {
+                enemy.setData("health", enemy.getData("health") - 
+                1);
+            } else {
+                enemy.destroy();
+                enemy.__dead = true;
+            }
+            bullet.destroy();
+        })
+
+        this.physics.overlap(player, door, (player, door) => {
+            if (this.score >= 20) {
+                this.scene.start("winner")
+                this.scene.manager.stop("hud")
+            }
+        });
+
+        this.physics.collide(player, ebullets, (player, bullet) => {
+            bullet.destroy();
+            this.health-=1;
+        })
 
         if (this.health <= 0) {
             this.scene.manager.stop("hud")
