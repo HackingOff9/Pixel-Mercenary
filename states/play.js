@@ -26,7 +26,7 @@ export default class Play {
         this.load.image('road', 'src/games/firstgame/assets/Road.png');
         this.load.image('star', 'src/games/firstgame/assets/star.png');
         this.load.image('key', 'src/games/firstgame/assets/Key.png');
-        this.load.spritesheet('dude', 'src/games/firstgame/assets/dude.png', { frameWidth: 32, frameHeight: 48 });
+        this.load.spritesheet('dude', 'src/games/firstgame/assets/gg2.png', { frameWidth: 38.75, frameHeight: 64 });
         this.load.image('heart', 'src/games/firstgame/assets/heart.png');
         this.load.image('house1', 'src/games/firstgame/assets/House1.png');
         this.load.image('house2', 'src/games/firstgame/assets/House2.png');
@@ -43,6 +43,8 @@ export default class Play {
         this.load.image ("owner","src/games/firstgame/assets/owner.png")
         this.load.image("billboard","src/games/firstgame/assets/billboard.png");
         this.load.image("bullet2","src/games/firstgame/assets/bullet2.png");
+        this.load.image("lazer","src/games/firstgame/assets/lazer.png");
+        this.load.spritesheet('bg', 'src/games/firstgame/assets/bg2.png', { frameWidth: 38.75, frameHeight: 64 });
     }   
     init() {
         this.score = 0;
@@ -115,53 +117,17 @@ export default class Play {
         for (let i = 0; i < 26; i++) {
             road.create(150 + 200 * i, 799, 'road').setScale(2).refreshBody();
         }
-
-        /*
-        road.create(150, 799, 'road').setScale(2).refreshBody();
-        road.create(350, 799, 'road').setScale(2).refreshBody();
-        road.create(550, 799, 'road').setScale(2).refreshBody();
-        road.create(750, 799, 'road').setScale(2).refreshBody();
-        road.create(950, 799, 'road').setScale(2).refreshBody();
-        road.create(1150, 799, 'road').setScale(2).refreshBody();
-        road.create(1350, 799, 'road').setScale(2).refreshBody();
-
-        road.create(260, 445, 'platform').setScale(.25).refreshBody();
-        road.create(437.5, 445, 'platform').setScale(.25).refreshBody();
-        road.create(888, 468, 'platform').setScale(.15).refreshBody();
-
-        road.create(1550, 799, 'road').setScale(2).refreshBody();
-        road.create(1750, 799, 'road').setScale(2).refreshBody();
-        road.create(1950, 799, 'road').setScale(2).refreshBody();
-        road.create(2150, 799, 'road').setScale(2).refreshBody();
-        road.create(2350, 799, 'road').setScale(2).refreshBody();
-        road.create(2550, 799, 'road').setScale(2).refreshBody();
-        road.create(2750, 799, 'road').setScale(2).refreshBody();
-        road.create(2950, 799, 'road').setScale(2).refreshBody();
-        road.create(3150, 799, 'road').setScale(2).refreshBody();
-        road.create(3150, 799, 'road').setScale(2).refreshBody();
-        road.create(3350, 799, 'road').setScale(2).refreshBody();
-        road.create(3550, 799, 'road').setScale(2).refreshBody();
-        road.create(3750, 799, 'road').setScale(2).refreshBody();
-        road.create(3750, 799, 'road').setScale(2).refreshBody();
-        road.create(3950, 799, 'road').setScale(2).refreshBody();
-        road.create(4150, 799, 'road').setScale(2).refreshBody();
-        road.create(4350, 799, 'road').setScale(2).refreshBody();
-        road.create(4550, 799, 'road').setScale(2).refreshBody();
-        road.create(4750, 799, 'road').setScale(2).refreshBody();
-        road.create(4950, 799, 'road').setScale(2).refreshBody();
-        */
-
                 
         road.create(710, 445, 'platform').setScale(.25).refreshBody();
         road.create(798.75, 295, 'platform').setScale(.25).refreshBody();
         road.create(887.5, 445, 'platform').setScale(.25).refreshBody();
         road.create(1200, 550, 'platform').setScale(.3).refreshBody();
         road.create(1504, 459, 'platform').setScale(.125).refreshBody();
-        road.create(1520.5, 225, 'platform').setScale(.21).refreshBody(); 
+        road.create(1500, 225, 'platform').setScale(.21).refreshBody(); 
         road.create(1588, 468, 'platform').setScale(.15).refreshBody();
         road.create(1588, 325, 'platform').setScale(.25).refreshBody();
         road.create(1605, 100, 'platform').setScale(.085).refreshBody();
-        road.create(1646.5, 225, 'platform').setScale(.21).refreshBody();
+        road.create(1666.5, 225, 'platform').setScale(.21).refreshBody();
         road.create(1663, 459, 'platform').setScale(.125).refreshBody();
         road.create(2400, 495, 'platform').setScale(.15).refreshBody();
         road.create(2455, 330, 'platform').setScale(.075).refreshBody();
@@ -182,6 +148,9 @@ export default class Play {
         player.setBounce(0.2);
         player.setCollideWorldBounds(true);
         player.setGravityY(320)
+        //player.scale.setTo(0.5)
+        //player.body.setSize(82.5, 50)
+        
 
         const camera = this.cameras.main;
         camera.startFollow(player);
@@ -189,20 +158,20 @@ export default class Play {
 
         this.anims.create({
             key: 'left',
-            frames: this.anims.generateFrameNumbers('dude', { start: 0, end: 3 }),
+            frames: this.anims.generateFrameNumbers('dude', { start: 4, end: 7 }),
             frameRate: 10,
             repeat: -1
         });
 
         this.anims.create({
             key: 'turn',
-            frames: [{ key: 'dude', frame: 4 }],
+            frames: [{ key: 'dude', frame: 0 }],
             frameRate: 20
         });
 
         this.anims.create({
             key: 'right',
-            frames: this.anims.generateFrameNumbers('dude', { start: 5, end: 8 }),
+            frames: this.anims.generateFrameNumbers('dude', { start: 0, end: 3 }),
             frameRate: 10,
             repeat: -1
         });
@@ -283,11 +252,10 @@ export default class Play {
 
 
         enemies = this.physics.add.group();
-        let star = enemies.create(500, 575, "star")
-        star.setData("health", 3)
-        star.setScale(2)
+        let bg = enemies.create(500, 575, "bg")
+        bg.setData("health", 3)
         this.add.tween({
-            targets: [star],
+            targets: [bg],
             durration: 1000,
             delay: 0,
             hold: 500,
@@ -299,18 +267,17 @@ export default class Play {
                 getEnd: () => 600
             },
             onYoyo: () => {
-                this.spawnEnemyBullet(star, true)
+                this.spawnEnemyBullet(bg, true)
             },
             onRepeat: () => {
-                this.spawnEnemyBullet(star, false)
+                this.spawnEnemyBullet(bg, false)
             }
         });
 
-        let star2 = enemies.create(500, 522.5, "star")
-        star2.setData("health", 3)
-        star2.setScale(2)
+        let bg2 = enemies.create(500, 522.5, "bg")
+        bg2.setData("health", 3)
         this.add.tween({
-            targets: [star2],
+            targets: [bg2],
             durration: 1000,
             delay: 0,
             hold: 500,
@@ -322,18 +289,17 @@ export default class Play {
                 getEnd: () => 1250
             },
             onYoyo: () => {
-                this.spawnEnemyBullet(star2, true)
+                this.spawnEnemyBullet(bg2, true)
             },
             onRepeat: () => {
-                this.spawnEnemyBullet(star2, false)
+                this.spawnEnemyBullet(bg2, false)
             }
         });
         
-        let star3 = enemies.create(500, 470, "star")
-        star3.setData("health", 3)
-        star3.setScale(2)
+        let bg3 = enemies.create(500, 470, "bg")
+        bg3.setData("health", 3)
         this.add.tween({
-            targets: [star3],
+            targets: [bg3],
             durration: 1000,
             delay: 0,
             hold: 500,
@@ -345,18 +311,17 @@ export default class Play {
                 getEnd: () => 2425
             },
             onYoyo: () => {
-                this.spawnEnemyBullet(star3, true)
+                this.spawnEnemyBullet(bg3, true)
             },
             onRepeat: () => {
-                this.spawnEnemyBullet(star3, false)
+                this.spawnEnemyBullet(bg3, false)
             }
         });
 
-        let star4 = enemies.create(500, 575, "star")
-        star4.setData("health", 3)
-        star4.setScale(2)
+        let bg4 = enemies.create(500, 575, "bg")
+        bg4.setData("health", 3)
         this.add.tween({
-            targets: [star4],
+            targets: [bg4],
             durration: 1000,
             delay: 0,
             hold: 500,
@@ -368,18 +333,17 @@ export default class Play {
                 getEnd: () => 3600
             },
             onYoyo: () => {
-                this.spawnEnemyBullet(star4, true)
+                this.spawnEnemyBullet(bg4, true)
             },
             onRepeat: () => {
-                this.spawnEnemyBullet(star4, false)
+                this.spawnEnemyBullet(bg4, false)
             }
         });
 
-        let star5 = enemies.create(500, 575, "star")
-        star5.setData("health", 3)
-        star5.setScale(2)
+        let bg5 = enemies.create(500, 575, "bg")
+        bg5.setData("health", 3)
         this.add.tween({
-            targets: [star5],
+            targets: [bg5],
             durration: 1000,
             delay: 0,
             hold: 500,
@@ -391,10 +355,10 @@ export default class Play {
                 getEnd: () => 4100
             },
             onYoyo: () => {
-                this.spawnEnemyBullet(star5, true)
+                this.spawnEnemyBullet(bg5, true)
             },
             onRepeat: () => {
-                this.spawnEnemyBullet(star5, false)
+                this.spawnEnemyBullet(bg5, false)
             }
         });
 
@@ -402,6 +366,32 @@ export default class Play {
     }
 
     update() {
+
+        this.physics.overlap(bullets, enemies, (bullet, enemy) => {
+            if (enemy.getData("health") >= 2) {
+                enemy.setData("health", enemy.getData("health") - 
+                1);
+            } else {
+                enemy.destroy();
+                enemy.__dead = true;
+            }
+            bullet.destroy();
+        })
+
+        this.physics.overlap(player, door, (player, door) => {
+            console.log('collide')
+        });
+
+        this.physics.collide(player, ebullets, (player, bullet) => {
+            bullet.destroy();
+            this.health-=1;
+        })
+
+        this.physics.collide(bullets, ebullets, (pBullet, eBullet) => {
+            pBullet.destroy();
+            eBullet.destroy();
+        })
+
         door.anims.play('door-animation')
 
         if (gameOver) {
@@ -431,26 +421,6 @@ export default class Play {
             player.setVelocityY(-330);
         }
 
-        this.physics.overlap(bullets, enemies, (bullet, enemy) => {
-            if (enemy.getData("health") >= 2) {
-                enemy.setData("health", enemy.getData("health") - 
-                1);
-            } else {
-                enemy.destroy();
-                enemy.__dead = true;
-            }
-            bullet.destroy();
-        })
-
-        this.physics.overlap(player, door, (player, door) => {
-            console.log('collide')
-        });
-
-        this.physics.collide(player, ebullets, (player, bullet) => {
-            bullet.destroy();
-            this.health-=0.5;
-        })
-
         if (this.health <= 0) {
             this.scene.manager.stop("hud")
             this.scene.start("gameover")
@@ -468,7 +438,7 @@ export default class Play {
     spawnBullet() {
         if (canFire === true) {
             canFire = false;
-            const bullet = bullets.create(player.x, player.y, "bullet")
+            const bullet = bullets.create(player.x, player.y-15, "lazer")
 
             if (facingRight === true) {
                 bullet.setVelocityX(500)
@@ -491,9 +461,13 @@ export default class Play {
         }
         const ebullet = ebullets.create(enemy.x, enemy.y, 'bullet')
         if(direction){
-            ebullet.setVelocityX(150)
+            ebullet.setVelocityX(200)
         } else {
-            ebullet.setVelocityX(-150)
+            ebullet.setVelocityX(-200)
         }
+    }
+
+    bulletCollision(pBullet, eBullet){
+
     }
 }
