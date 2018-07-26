@@ -1,6 +1,7 @@
 import Play from "./states/play.js";
 import HUD from "./states/hud.js";
 import start from "./states/start.js";
+import gameover from "./states/gameover.js";
 const config = {
     type: Phaser.AUTO,
     width: 1500,
@@ -20,6 +21,7 @@ const game = new Phaser.Game(config);
 game.scene.add("play", Play)
 game.scene.add("hud", HUD);
 game.scene.add("start", start)
+game.scene.add("gameover", gameover)
 
 
 game.scene.start("start");

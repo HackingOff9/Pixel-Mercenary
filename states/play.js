@@ -18,8 +18,8 @@ let canFire;
 let facingRight;
 let enemies;
 let clouds;
-let tree
-let key
+let tree;
+let key;
 export default class Play {
     preload() {
         this.load.image('sky', 'src/games/firstgame/assets/sky.png');
@@ -420,7 +420,8 @@ export default class Play {
 
         this.physics.overlap(bullets, enemies, (bullet, enemy) => {
             if (enemy.getData("health") >= 2) {
-                enemy.setData("health", enemy.getData("health") - 1);
+                enemy.setData("health", enemy.getData("health") - 
+                1);
             } else {
                 enemy.destroy();
                 enemy.__dead = true;
@@ -434,7 +435,7 @@ export default class Play {
 
         this.physics.collide(player, ebullets, (player, bullet) => {
             bullet.destroy();
-            this.health--;
+            this.health-=0.5;
         })
 
         if (this.health <= 0) {
