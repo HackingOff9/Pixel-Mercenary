@@ -60,7 +60,7 @@ export default class Play {
         this.physics.world.setBounds(0, 0, worldWidth, worldHeight);
         this.soundFX = this.sound.add("audio", {loop : true});
         this.soundFX.play();
-        
+
         keys = this.input.keyboard.addKeys({
             W: Phaser.Input.Keyboard.KeyCodes.W,
             Up: Phaser.Input.Keyboard.KeyCodes.UP,
@@ -259,6 +259,8 @@ export default class Play {
         enemies = this.physics.add.group();
         let bg = enemies.create(500, 575, "bg")
         bg.setData("health", 3)
+        bg.setFrame(0)
+        console.log(bg)
         this.add.tween({
             targets: [bg],
             durration: 1000,
@@ -273,14 +275,17 @@ export default class Play {
             },
             onYoyo: () => {
                 this.spawnEnemyBullet(bg, true)
+                bg.setFrame(4)
             },
             onRepeat: () => {
                 this.spawnEnemyBullet(bg, false)
+                bg.setFrame(0)
             }
         });
 
         let bg2 = enemies.create(500, 522.5, "bg")
         bg2.setData("health", 3)
+        bg2.setFrame(0)
         this.add.tween({
             targets: [bg2],
             durration: 1000,
@@ -295,14 +300,17 @@ export default class Play {
             },
             onYoyo: () => {
                 this.spawnEnemyBullet(bg2, true)
+                bg2.setFrame(4)
             },
             onRepeat: () => {
                 this.spawnEnemyBullet(bg2, false)
+                bg2.setFrame(0)
             }
         });
         
         let bg3 = enemies.create(500, 470, "bg")
         bg3.setData("health", 3)
+        bg3.setFrame(4)
         this.add.tween({
             targets: [bg3],
             durration: 1000,
@@ -317,14 +325,17 @@ export default class Play {
             },
             onYoyo: () => {
                 this.spawnEnemyBullet(bg3, true)
+                bg3.setFrame(0)
             },
             onRepeat: () => {
                 this.spawnEnemyBullet(bg3, false)
+                bg3.setFrame(4)
             }
         });
 
         let bg4 = enemies.create(500, 575, "bg")
         bg4.setData("health", 3)
+        bg4.setFrame(4)
         this.add.tween({
             targets: [bg4],
             durration: 1000,
@@ -339,14 +350,17 @@ export default class Play {
             },
             onYoyo: () => {
                 this.spawnEnemyBullet(bg4, true)
+                bg4.setFrame(0)
             },
             onRepeat: () => {
                 this.spawnEnemyBullet(bg4, false)
+                bg4.setFrame(4)
             }
         });
 
         let bg5 = enemies.create(500, 575, "bg")
         bg5.setData("health", 3)
+        bg5.setFrame(4)
         this.add.tween({
             targets: [bg5],
             durration: 1000,
@@ -361,9 +375,11 @@ export default class Play {
             },
             onYoyo: () => {
                 this.spawnEnemyBullet(bg5, true)
+                bg5.setFrame(0)
             },
             onRepeat: () => {
                 this.spawnEnemyBullet(bg5, false)
+                bg5.setFrame(0)
             }
         });
 
